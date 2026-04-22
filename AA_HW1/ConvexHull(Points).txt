@@ -1,0 +1,32 @@
+Algorithm ConvexHull(Points):
+    // If the number of points is small, compute the convex hull directly
+    if number of points <= 3:
+        return direct convex hull (the points themselves)
+    
+    otherwise:
+        // Divide points into two approximately equal halves based on x-coordinate
+        sort points by x-coordinate
+        mid = number of points / 2
+        LeftPoints = Points[0...mid-1]
+        RightPoints = Points[mid...n-1]
+        
+        // Recursive solution for each half
+        LeftHull = ConvexHull(LeftPoints)
+        RightHull = ConvexHull(RightPoints)
+        
+        // Merge the two convex hulls
+        MergedHull = MergeHulls(LeftHull, RightHull)
+        
+        return MergedHull
+
+Function MergeHulls(LeftHull, RightHull):
+    // Find the upper tangent line between the two convex hulls
+    UpperTangent = FindUpperTangent(LeftHull, RightHull)
+    
+    // Find the lower tangent line between the two convex hulls
+    LowerTangent = FindLowerTangent(LeftHull, RightHull)
+    
+    // Merge the two hulls using the tangent lines
+    MergedHull = combine points from LeftHull and RightHull using the upper and lower tangents
+    
+    return MergedHull

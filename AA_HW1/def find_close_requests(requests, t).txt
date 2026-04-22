@@ -1,0 +1,51 @@
+def find_close_requests(requests, threshold=1.0):
+    # Build KD-Tree from all requests
+    # Each request contains geographical coordinates
+    kdtree = KDTree([req.coordinates for req in requests])
+    
+    close_pairs = []
+    for i, req in enumerate(requests):
+        # Search for neighbors within distance less than threshold
+        indices = kdtree.query_radius([req.coordinates], r=threshold)[0]
+        
+        # Remove the request itself from the results
+        indices = [idx for idx in indices if idx != i]
+        
+        for j in indices:
+            if i < j:  # Avoid counting pairs twice
+                close_pairs.append((i, j))
+    
+    return close_pairs
+
+def accept_up_to_three_close_requests(requests, threshold=1.0):
+    # Build KD-Tree from all requests
+    kdtree = KDTree([req.coordinates for req in requests])
+    
+    # Keep track of the number of similar requests for each request
+    similar_count = {i: 0 for i in range(len(requests))}
+    accepted = [False] * len(requests)
+    
+    # Check all requests
+    for i, req in enumerate(requests):
+        # If this request has already been rejected, skip it
+        if accepted[i]:
+            continue
+            
+        # Search for neighbors within distance less than threshold
+        indices = kdtree.query_radius([req.coordinates], r=threshold)[0]
+        
+        # Remove the request itself from the results
+        indices = [idx for idx in indices if idx != i]
+        
+        # Check neighbors
+        for j in indices:
+            if not accepted[j]:
+                similar_count[i] += 1
+                similar_count[j] += 1
+        
+        # If the number of similar requests is less than 3, accept it
+        if similar_count[i] < 3:
+            accepted[i] = True
+    
+    # Return the indices of accepted requests
+    return [i for i, is_accepted in enumerate(accepted) if is_accepted]

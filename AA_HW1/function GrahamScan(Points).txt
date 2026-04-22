@@ -1,0 +1,36 @@
+function GrahamScan(Points):
+    // Find the point with the smallest y-coordinate (and smallest x if tie)
+    p0 = point with the smallest y-coordinate
+    
+    // Sort points by polar angle with respect to p0
+    Sort Points by polar angle with respect to p0
+    
+    // Build convex hull using a stack
+    stack = [p0, Points[1]]
+    
+    for i = 2 to n-1:
+        while size(stack) > 1 and orientation(next_to_top(stack), top(stack), Points[i]) is not counterclockwise:
+            pop(stack)
+        push(stack, Points[i])
+    
+    return stack // stack contains convex hull points
+
+// Orientation function
+function orientation(p, q, r):
+    val = (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y)
+    if val == 0: return collinear
+    if val > 0: return clockwise
+    return counterclockwise
+
+function UpdateConvexHull(currentHull, removedPoints, newPoints):
+    // Remove points
+    for each point p in removedPoints:
+        if p is on the boundary of currentHull:
+            Reconstruct the portion of the hull affected by removing p
+    
+    // Add new points
+    for each point p in newPoints:
+        if p is outside currentHull:
+            Find the tangent lines from p to currentHull
+            Remove the edges between tangent points
+            Add p and new edges to currentHull

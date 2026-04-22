@@ -1,0 +1,23 @@
+function findBestHourToCutPower(A):
+    n = length(A)  // should be 24
+    candidates = []
+    
+    for i = 0 to n-1:
+        prev = (i-1+n) % n  // previous hour (considering circularity)
+        next = (i+1) % n    // next hour
+        
+        if A[i] > A[prev] AND A[i] > A[next]:
+            candidates.append(i)
+    
+    if candidates is empty:
+        return -1  // no hour satisfies the condition
+    
+    maxConsumption = -1
+    bestHour = -1
+    
+    for hour in candidates:
+        if A[hour] > maxConsumption:
+            maxConsumption = A[hour]
+            bestHour = hour
+    
+    return bestHour
