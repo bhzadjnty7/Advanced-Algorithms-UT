@@ -131,6 +131,11 @@ This project is open-source and available under the MIT License.
 ## 📬 Contact
 Developed by Behzad Jannati
 
+
+## ⭐️ Support
+
+If you find this repository useful, consider giving it a ⭐️
+
 University of Tehran - Computer Engineering Department
 
 GitHub: [https://github.com/bhzadjnty7](https://github.com/bhzadjnty7)
